@@ -1,0 +1,97 @@
+﻿@using System.Drawing
+@using Data
+@using Microsoft.JSInterop
+@inject IJSRuntime runtime
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+
+<style>
+    #vista-mapa, .map {
+        height: 95%;
+        width: 95%;
+        position: absolute !important;
+    }
+
+    .map-Container {
+        min-width: 450px;
+        width: 100%;
+        min-height: 380px;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+</style>
+
+<div class="modal fade" id="@(Id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex justify-content-between">
+                    <button @onclick="viewDetails" class="btn btn-link">Detalles</button>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!---------------------------------->
+                <div>
+                    <h2>Datos Personales</h2>
+                    @if (details)
+                    {
+                        <div>
+                            <p><b>Sexo: </b>@DP.Sexo</p>
+                            <p><b>Apellidos: </b>@DP.Apellidos</p>
+                            <p><b>Nombres: </b>@DP.Nombres</p>
+                            <p><b>Fecha de Nacimiento: </b>@DP.FechaNacimiento.Day / @DP.FechaNacimiento.Month / @DP.FechaNacimiento.Year</p>
+                            <p><b>País de nacimiento: </b>@DP.PaisNacimiento.</p>
+                            <p><b>Ciudad de nacimiento: </b>@DP.CiudadNacimiento</p>
+                            <p><b>País de residencia actual:</b>@DP.PaisResidenciaActual</p>
+                            <p><b>Ciudad de residencia actual:</b><br>@DP.CiudadResidenciaActual</p>
+                            <p><b>Dirección (Provincia/sector/calle/No. de vivienda):</b><br>@DP.Direccion</p>
+                            <p><b>Teléfono:</b><br>@DP.Telefono</p>
+                            <p><b>Celular:</b><br>@DP.Celular</p>
+                            <p><b>Correo elctrónico:</b><br>@DP.Correo</p>
+                            <p><b>Tipo de Documento de identidad:</b><br>@DP.TipoDocumento</p>
+                            <p><b>Documento de identidad:</b><br>@DP.DocumentoIdentidad</p>
+                        </div>
+                    }
+                    <!---------------------------------->
+                    }
+                    @if (images)
+                    {
+                        <div class="text-center">
+
+                        </div>
+                    }
+                </div>
+            </div>
+            <!----------------------------------------------------->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    [Parameter]
+    public Integrante DP { get; set; }
+
+    private bool details = true;
+    private bool images = false;
+
+    private void viewDetails()
+    {
+        details = true;
+        images = false;
+    }
+
+
+
+}

@@ -1,0 +1,245 @@
+﻿@using IglesiaCatolicaUnidos.Data
+@using IglesiaCatolicaUnidos.Servicios
+@using IglesiaCatolicaUnidos.Utilidades
+
+@inject I_IglesiaServicios IS
+<div class="container">
+    <div class="mr-auto">
+        <form @onsubmit="HandleSubmit">
+            <!--------------------------Datos Personales------------------------------------->
+            <h3>Datos Personales</h3>
+            <div class="form-group">
+                <label>Cual es su sexo:</label>
+                <MatRadioGroup @bind-Value="@Integrante.Sexo" TValue="string">
+                    <MatRadioButton Value="@("Mujer")" Label="Mujer" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("Hombre")" TValue="string">Hombre</MatRadioButton>
+                </MatRadioGroup>
+            </div>
+            <div class="form-group">
+                <label>Diganos sus apellidos</label>
+                <input @bind-value="Integrante.Apellidos" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Diganos sus nombres</label>
+                <input @bind-value="Integrante.Nombres" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Fecha de nacimiento</label>
+                <input @bind-value="Integrante.FechaNacimiento" required type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Pais de Nacimiento</label>
+                <MatSelectItem @bind-Value="@Integrante.PaisNacimiento" Items="@Utiles.PaisesItems"></MatSelectItem>
+            </div>
+            <div class="form-group">
+                <label>Diganos su Ciudad de nacimiento:</label>
+                <input @bind-value="Integrante.CiudadNacimiento" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>País de residencia actual:</label>
+                <MatSelectItem @bind-Value="@Integrante.PaisResidenciaActual" Items="@Utiles.PaisesItems"></MatSelectItem>
+            </div>
+            <div class="form-group">
+                <label>Ciudad de residencia actual:</label>
+                <input @bind-value="Integrante.CiudadResidenciaActual" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Dirección (Provincia / sector / calle / No. de vivienda):</label>
+                <textarea @bind="Integrante.Direccion" rows="3" cols="100" placeholder="Diganos su direccion!"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Telefono:</label>
+                <input @bind-value="Integrante.Telefono" required type="number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Celular:</label>
+                <input @bind-value="Integrante.Celular" required type="number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Correo elctrónico:</label>
+                <input @bind-value="Integrante.Correo" required type="email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Tipo de Documento de identidad: </label>
+                <MatRadioGroup @bind-Value="@Integrante.TipoDocumento" TValue="string">
+                    <MatRadioButton Value="@("cedula")" Label="Cédula" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("pasaporte")" Label="Pasaporte" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("DNI")" Label="DNI" TValue="string"></MatRadioButton>
+                </MatRadioGroup>
+            </div>
+            <div class="form-group">
+                <label>Documento de identidad:</label>
+                <input @bind-value="Integrante.DocumentoIdentidad" required type="number" class="form-control" />
+            </div>
+            <!---------------------------------Datos FAMILIARES-------------------------------------------------------->
+            <h3>Datos Familiares</h3>
+            <div class="form-group">
+                <label>Estado civil: </label>
+                <MatRadioGroup @bind-Value="@Integrante.EstadoCivil" TValue="string">
+                    <MatRadioButton Value="@("Soltero")" Label="Cédula" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("Casado")" Label="Pasaporte" TValue="string"></MatRadioButton>
+                </MatRadioGroup>
+            </div>
+            <div class="form-group">
+                <label class="form-control">Nombre de esposa(Si no esta casado es opcional) </label>
+                <input @bind-value="Integrante.NombrePareja" type="text" class="form-control" />
+            </div>
+            <!---------------------------------Datos laborales-------------------------------------------------------->
+            <h3>Datos laborales</h3>
+            <div class="form-group">
+                <label class="form-control">Profesión: </label>
+                <input @bind-value="Integrante.Profesion" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Ocupación actual: </label>
+                <input @bind-value="Integrante.OcupacionActual" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Nombre de la empresa o negocio: </label>
+                <input @bind-value="Integrante.NombreEmpresa" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Teléfono de Empresa: </label>
+                <input @bind-value="Integrante.TelefonoCelular2" required type="text" class="form-control" />
+            </div>
+            <!---------------------------------Datos Eclesiaticos-------------------------------------------------------->
+            <h3>Datos Eclesiaticos</h3>
+            <div class="form-group">
+                <label class="form-control">Fecha de conversión: </label>
+                <input @bind-value="Integrante.FechaConversion" required type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Fecha de bautismo: </label>
+                <input @bind-value="Integrante.FechaBautismo" required type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Fecha en que fue aceptado(a) formalmente como miembro de la	Iglesia: </label>
+                <input @bind-value="Integrante.FechaAceptacionIglesia" required type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Denominación a la que pertenece: </label>
+                <input @bind-value="Integrante.DenominacionReligiosa" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Nombre	de	la	Iglesia	a	la	que	asiste	actualmente </label>
+                <input @bind-value="Integrante.NombreIglesiaActual" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Si	asiste	a	esta	iglesia	por	un	tiempo	menor	a	un año,	¿dónde	se	congregaba	antes? </label>
+                <input @bind-value="Integrante.TiempoDondeseCongregaba" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Nombre	del	pastor	de	su	iglesia	actual </label>
+                <input @bind-value="Integrante.NombrePastorActual" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">¿Ha	sido	disciplinado	alguna	vez?</label>
+                <MatRadioGroup @bind-Value="@Integrante.Diciplinado" TValue="string">
+                    <MatRadioButton Value="@("Si")" Label="Si" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("No")" Label="No" TValue="string"></MatRadioButton>
+                </MatRadioGroup>
+            </div>
+            <div class="form-group">
+                <label class="form-control">Si ha sido diciplinado, diga cuantas veces</label>
+                <input @bind-value="Integrante.N_Diciplinado" required type="number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">En la actualidad cual funcion ocupa (Ambito religioso):</label>
+                <input @bind-value="Integrante.FuncionesActuales" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">¿Cuáles	son	los	ministerios	en	los	que	ha	servido?:</label>
+                <input @bind-value="Integrante.MinisteriosServidos" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">¿En cuál de estos ministerios	considera que tuvo mayor fruto? ¿Por qué?:</label>
+                <input @bind-value="Integrante.MayorFrutoMinisterios" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">Considerando sus dones y talentos, ¿a qué ministerio cree usted que Dios lo(a) está llamando?:</label>
+                <input @bind-value="Integrante.LLamadoMinisterio" required type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">¿Qué metas tiene para su vida?:</label>
+                <input @bind-value="Integrante.Metas" type="text" required class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">
+                    ¿Cuenta con el respaldo de sus autoridades eclesiásticas para realizar estos estudios?
+                    Si	/	no:
+                </label>
+                <input @bind-value="Integrante.RespaldoAutoridades_Ecle" required type="text" class="form-control" />
+            </div>
+            <!------------------------Datos Academicos-------------------------->
+            <h3>Datos academicos</h3>
+            <div class="form-group">
+                <label class="form-control">
+                    Nivel	de	estudio:	Seleccione	(Primaria,	Secundaria, Tecnico, Grado,	Postgrado - Maestria,
+                    Doctorado):
+                </label>
+                <input @bind-value="Integrante.NivelEstudio" type="text" required class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-control">¿Alguna	vez	ha	sido	expulsado	o	suspendido	de	alguna	institución?</label>
+                <MatRadioGroup @bind-Value="@Integrante.Expulsado" TValue="string">
+                    <MatRadioButton Value="@("Si")" Label="Si" TValue="string"></MatRadioButton>
+                    <MatRadioButton Value="@("No")" Label="No" TValue="string"></MatRadioButton>
+                </MatRadioGroup>
+            </div>
+            <div class="form-group">
+                <label class="form-control">En caso afirmativo, por que razon?</label>
+                <input @bind-value="Integrante.RazonExpulsacion" type="text" required class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar Integrante" class="btn btn-success">
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+@code
+{
+    [Parameter]
+    public Guid Uid { get; set; }
+    private Integrante Integrante = new Integrante
+    {
+        IntegranteID = Guid.NewGuid(),
+        FechaNacimiento = DateTime.Today
+    };
+    VariablesUtiles Utiles = new VariablesUtiles();
+    MyUsuario usuario = new MyUsuario();
+
+    private async Task HandleSubmit()
+    {
+
+        var status = await IS.CreateIntegrante(Integrante);
+        if (status)
+        {
+            Integrante = new Integrante
+            {
+
+                IntegranteID = Guid.NewGuid(),
+                FechaNacimiento = DateTime.Today
+            };
+            StateHasChanged();
+        }
+        Console.WriteLine(status);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (Uid != null)
+            {
+                Integrante.MyUsuarioID = Uid;
+                //coord.Tid = tesoro.Id;
+                //coord.Uid = Uid;
+                //tesoro.Uid = Uid;
+            }
+        }
+    }
+}

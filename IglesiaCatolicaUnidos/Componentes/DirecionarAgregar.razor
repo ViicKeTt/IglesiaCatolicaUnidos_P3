@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using IglesiaCatolicaUnidos.Data
+@using IglesiaCatolicaUnidos.Componentes
+@inject SignInManager<MyUsuario> SignInManager
+@inject UserManager<MyUsuario> UserManager
+@page "/agregar"
+
+<AuthorizeView>
+    <Authorized>
+            <div class="p-2 w-100" style="background-color: @Color; border-radius: 5px;">
+                <div class="p-2 d-flex">
+                    <div class="col-4 mr-3 p-3" style="background-color: white;">
+                        <AgregarIntegrante Uid="@userId" />
+                    </div>
+                </div>
+            </div>
+    </Authorized>
+
+</AuthorizeView>
+       
+
+            @code {
+                [CascadingParameter]
+                private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+                private string Color = "#ffffff";
+                private MyUsuario user = new MyUsuario();
+                private Guid userId;
+
+                private void evnt()
+                {
+                    Console.WriteLine("enento");
+                }
+
+                protected override async Task OnInitializedAsync()
+                {
+                    var authState = await authenticationStateTask;
+                    user = await UserManager.GetUserAsync(authState.User);
+                    userId = user.MyUsuarioID;
+                }
+            }

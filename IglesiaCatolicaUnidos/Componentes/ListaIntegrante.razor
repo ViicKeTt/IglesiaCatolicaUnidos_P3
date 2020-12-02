@@ -1,0 +1,79 @@
+﻿
+@using Data
+@using IglesiaCatolicaUnidos.Servicios
+@inject I_IglesiaServicios IS
+
+<div>
+    <table class="table">
+        <thead>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Dirreccion</th>
+        <th>Detalles</th>
+        <th>Borrar</th>
+        </thead>
+        <tbody>
+            @if (Integrante.Count > 0)
+            {
+                @foreach (Integrante I in Integrante)
+                {
+                    <tr>
+                        <td>@I.Nombres</td>
+                        <td>@I.Apellidos</td>
+                        <td>@I.Direccion</td>
+                        <td>
+                            <button @onclick="()=>SetIntegranteModal(I)" data-toggle="modal" data-target="#ModalDetalle"
+                                    class="btn btn-link">
+                                Ver Detalles
+                            </button>
+                        </td>
+                        <td><button class="btn btn-danger" @onclick="(() => BorrarIntegrante(I))">Borrar</button></td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [Parameter]
+    public Guid Uid { get; set; }
+    [Parameter]
+    public EventCallback ChangeRL { get; set; }
+
+    List<Integrante> Integrante = new List<Integrante>();
+    Integrante ModalT = new Integrante();
+    private string modalId = "ModalDetalle";
+
+    private void SetIntegranteModal(Integrante t)
+    {
+        ModalT = t;
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        await Load();
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        StateHasChanged();
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        if (Uid != null)
+            Integrante = await IS.GetAllIntegrante(Uid);
+    }
+
+    private async Task BorrarIntegrante(Integrante Datos
+    )
+    {
+        await IS.DeleteIntegrante(Datos);
+        await Load();
+    }
+
+}
